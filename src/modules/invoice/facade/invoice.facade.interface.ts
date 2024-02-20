@@ -13,7 +13,6 @@ export interface InvoiceGenerateFacadeInputDto {
   items: {
     id: string;
     name: string;
-    quantity: number;
     price: number;
   }[]
 }
@@ -31,7 +30,6 @@ export interface InvoiceGenerateFacadeOutputDto {
   items: {
     id: string;
     name: string;
-    quantity: number;
     price: number;
   }[]
 }
@@ -48,7 +46,6 @@ export interface InvoiceFindFacadeOutputDto {
   items: {
     id: string;
     name: string;
-    quantity: number;
     price: number;
   }[]
   createdAt: Date

@@ -22,8 +22,5 @@ export class InvoiceItemsModel extends Model {
   name: string
 
   @Column({ allowNull: false })
-  quantity: number
-
-  @Column({ allowNull: false })
   price: number
 } 

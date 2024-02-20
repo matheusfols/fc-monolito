@@ -9,14 +9,12 @@ export const mockAddress2: Address = new Address('Rua 1', '123', 'apto 2', 'São
 export const mockItem1 = new InvoiceItems({
   id: new Id(),
   name: "Product mock 1",
-  quantity: 1,
   price: 100,
 });
 
 export const mockItem2 = new InvoiceItems({
   id: new Id(),
   name: "Product mock 2",
-  quantity: 3,
   price: 20,
 });
 
@@ -51,7 +49,6 @@ export const MockInvoiceInput = {
     {
       id: new Id().id,
       name: "Product mock 1",
-      quantity: 3,
       price: 20,
     }
   ]

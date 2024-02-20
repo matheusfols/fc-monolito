@@ -23,7 +23,6 @@ export default class InvoiceRepository implements InvoiceGateway {
       items: invoice.items.map((item) => ({
         id: item.id.id,
         name: item.name,
-        quantity: item.quantity,
         price: item.price,
         createdAt: item.createdAt,
         updatedAt: item.updatedAt
@@ -69,7 +68,6 @@ export default class InvoiceRepository implements InvoiceGateway {
       items: findInvoice.items.map((item) => (new InvoiceItems({
         id: new Id(item.id),
         name: item.name,
-        quantity: item.quantity,
         price: item.price
       }))),
       createdAt: findInvoice.createdAt,

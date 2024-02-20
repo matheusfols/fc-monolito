@@ -1,5 +1,5 @@
 // DTO Generate
-export interface InvoiceGenerateUseCaseInputDto {
+export interface GenerateInvoiceUseCaseInputDto {
   name: string;
   document: string;
   street: string;
@@ -11,12 +11,11 @@ export interface InvoiceGenerateUseCaseInputDto {
   items: {
     id: string;
     name: string;
-    quantity: number;
     price: number;
   }[];
 }
 
-export interface InvoiceGenerateUseCaseOutputDto {
+export interface GenerateInvoiceUseCaseOutputDto {
   id: string;
   name: string;
   document: string;
@@ -29,7 +28,6 @@ export interface InvoiceGenerateUseCaseOutputDto {
   items: {
     id: string;
     name: string;
-    quantity: number;
     price: number;
   }[];
   total: number;

@@ -1,6 +1,6 @@
 import UseCaseInterface from "../../../@shared/usecase/use-case.interface";
 import InvoiceGateway from "../../gateway/invoice.gateway";
-import { InvoiceFindUseCaseInputDTO, InvoiceFindUseCaseOutputDTO } from "./invoice.find.dto";
+import { FindInvoiceUseCaseInputDTO, FindInvoiceUseCaseOutputDTO } from "./invoice.find.dto";
 
 export default class InvoiceFindUseCase implements UseCaseInterface {
   private _invoiceRepository: InvoiceGateway
@@ -9,7 +9,7 @@ export default class InvoiceFindUseCase implements UseCaseInterface {
     this._invoiceRepository = invoiceRepository;
   }
 
-  async execute(input: InvoiceFindUseCaseInputDTO): Promise<InvoiceFindUseCaseOutputDTO> {
+  async execute(input: FindInvoiceUseCaseInputDTO): Promise<FindInvoiceUseCaseOutputDTO> {
     const result = await this._invoiceRepository.find(input.id)
 
     return {
@@ -27,7 +27,6 @@ export default class InvoiceFindUseCase implements UseCaseInterface {
       items: result.items.map((item) => ({
         id: item.id.id,
         name: item.name,
-        quantity: item.quantity,
         price: item.price
       })),
       total: result.total(),
