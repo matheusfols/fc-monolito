@@ -3,7 +3,7 @@ import InvoiceFindUseCase from "./invoice.find.usecase";
 
 describe("Find Invoice use case unit tests", () => {
   it("should find a invoice", async () => {
-    const InvoiceRepository = MockInvoiceRepository()
+    const InvoiceRepository = MockInvoiceRepository
     const usecase = new InvoiceFindUseCase(InvoiceRepository);
     const input = { id: mockInvoice1.id.id };
     const result = await usecase.execute(input);

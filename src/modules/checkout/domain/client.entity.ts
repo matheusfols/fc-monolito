@@ -9,6 +9,8 @@ type ClientProps = {
   email: string,
   document: string,
   address: Address;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 export default class Client extends BaseEntity implements AggregateRoot {
@@ -16,6 +18,7 @@ export default class Client extends BaseEntity implements AggregateRoot {
   private _email: string;
   private _document: string;
   private _address: Address;
+  static Address: any;
 
   constructor(props: ClientProps) {
     super(props.id);

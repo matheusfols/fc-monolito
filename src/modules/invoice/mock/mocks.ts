@@ -54,9 +54,7 @@ export const MockInvoiceInput = {
   ]
 }
 
-export const MockInvoiceRepository = () => {
-  return {
-    generate: jest.fn().mockReturnValue(Promise.resolve(mockInvoice1)),
-    find: jest.fn().mockReturnValue(Promise.resolve(mockInvoice1)),
-  };
+export const MockInvoiceRepository = {
+  generate: jest.fn().mockReturnValue(Promise.resolve(mockInvoice1)),
+  find: jest.fn().mockReturnValue(Promise.resolve(mockInvoice1)),
 };

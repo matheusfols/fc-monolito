@@ -1,15 +1,9 @@
+import { MockProductAdmRepository } from "../../mock/mock";
 import AddProductUseCase from "./add-product.usecase";
-
-const MockRepository = () => {
-  return {
-    add: jest.fn(),
-    find: jest.fn(),
-  };
-};
 
 describe("Add Product usecase unit test", () => {
   it("should add a product", async () => {
-    const productRepository = MockRepository();
+    const productRepository = MockProductAdmRepository();
     const usecase = new AddProductUseCase(productRepository);
 
     const input = {

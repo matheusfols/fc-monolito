@@ -1,18 +1,19 @@
-import { Column, HasMany, Model, PrimaryKey, Table } from "sequelize-typescript";
-import { InvoiceItemsModel } from "./invoice-items.model";
+import { Column, Model, PrimaryKey, Table } from "sequelize-typescript";
 
 @Table({
-  tableName: 'invoices',
+  tableName: 'orderClient',
   timestamps: false
 })
-
-export class InvoiceModel extends Model {
+export class ClientModel extends Model {
   @PrimaryKey
   @Column({ allowNull: false })
   id: string
 
   @Column({ allowNull: false })
   name: string
+
+  @Column({ allowNull: false })
+  email: string
 
   @Column({ allowNull: false })
   document: string
@@ -34,9 +35,6 @@ export class InvoiceModel extends Model {
 
   @Column({ allowNull: false })
   zipcode: string
-
-  @HasMany(() => InvoiceItemsModel)
-  items: Awaited<InvoiceItemsModel[]>
 
   @Column({ allowNull: false })
   createdAt: Date
