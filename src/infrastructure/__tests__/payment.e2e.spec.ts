@@ -5,6 +5,7 @@ import { Umzug } from "umzug";
 import { migrator } from "../../migrations/config-migrations/migrator";
 import TransactionModel from "../../modules/payment/repository/transaction.model";
 import paymentRouter from "../routes/payment";
+import { mockPaymentInputApproved, mockPaymentInputDeclined } from "./mock/payment.mock";
 
 describe("E2E test for payment", () => {
   const app: Express = express()
@@ -39,10 +40,7 @@ describe("E2E test for payment", () => {
   })
 
   it("should create a transaction", async () => {
-    const input = {
-      orderId: "order-1",
-      amount: 100,
-    };
+    const input = mockPaymentInputApproved;
 
     const response = await request(app)
       .post("/payment")
@@ -56,10 +54,7 @@ describe("E2E test for payment", () => {
   });
 
   it("should create a transaction declined", async () => {
-    const input = {
-      orderId: "order-1",
-      amount: 50,
-    };
+    const input = mockPaymentInputDeclined
 
     const response = await request(app)
       .post("/payment")

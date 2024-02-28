@@ -6,6 +6,7 @@ import { migrator } from "../../migrations/config-migrations/migrator";
 import { InvoiceModel } from "../../modules/invoice/repository/invoice.model";
 import { InvoiceItemsModel } from "../../modules/invoice/repository/invoice-items.model";
 import invoiceRouter from "../routes/invoice";
+import { mockInvoiceInputAdd, mockInvoiceInputNotAdd } from "./mock/invoice.mock";
 
 
 describe("E2E test for invoice", () => {
@@ -41,23 +42,7 @@ describe("E2E test for invoice", () => {
   })
 
   it("should create a invoice", async () => {
-    const input = {
-      name: "Mary Smith",
-      document: "1234567890",
-      street: "Rua Xv",
-      number: "1549",
-      complement: "",
-      city: "Itararé",
-      state: "SP",
-      zipCode: "99999-999",
-      items: [
-        {
-          id: "1",
-          name: "Product mock 1",
-          price: 20,
-        }
-      ]
-    }
+    const input = mockInvoiceInputAdd;
 
     const response = await request(app)
       .post("/invoice")
@@ -77,23 +62,30 @@ describe("E2E test for invoice", () => {
 
   });
   it("should not create a invoice", async () => {
-    const input = {
-      name: "Mary Smith",
-      document: "1234567890",
-      street: "Rua Xv",
-      number: "1549",
-      complement: "",
-      city: "Itararé",
-      state: "SP",
-      zipCode: "99999-999",
-      items: ''
-    }
+    const input = mockInvoiceInputNotAdd
 
     const response = await request(app)
       .post("/invoice")
       .send(input);
 
     expect(response.status).toBe(500);
+  });
+
+  it("should find a invoice", async () => {
+    const input = mockInvoiceInputAdd
+
+    const response = await request(app)
+      .post("/invoice")
+      .send(input);
+
+    expect(response.status).toBe(200);
+
+    const responseFind = await request(app)
+      .get(`/invoice/${response.body.id}`)
+      .send();
+
+    expect(responseFind.status).toBe(200);
+    expect(responseFind.body.id).toBe(response.body.id)
   });
 
 

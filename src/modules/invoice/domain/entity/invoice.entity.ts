@@ -1,7 +1,9 @@
-import AggregateRoot from "../../@shared/domain/entity/aggregate-root.interface";
-import BaseEntity from "../../@shared/domain/entity/base.entity";
-import Address from "../../@shared/domain/value-object/address/address.value-object";
-import Id from "../../@shared/domain/value-object/id.value-object";
+import AggregateRoot from "../../../@shared/domain/entity/aggregate-root.interface";
+import BaseEntity from "../../../@shared/domain/entity/base.entity";
+import NotificationError from "../../../@shared/domain/notification/notification.error";
+import Address from "../../../@shared/domain/value-object/address/address.value-object";
+import Id from "../../../@shared/domain/value-object/id.value-object";
+import InvoiceValidatorFactory from "../../factory/invoice.validator.factory";
 import InvoiceItems from "./invoice-items.entity";
 
 type InvoiceProps = {
@@ -26,6 +28,15 @@ export default class Invoice extends BaseEntity implements AggregateRoot {
     this._document = props.document;
     this._address = props.address;
     this._items = props.items;
+
+    this.validate();
+    if (this.notification.hasErrors()) {
+      throw new NotificationError(this.notification.getErrors());
+    }
+  }
+
+  validate(): void {
+    InvoiceValidatorFactory.create().validate(this)
   }
 
   get name(): string {

@@ -1,6 +1,4 @@
 import express, { Request, Response } from "express";
-import ProductAdmFacadeFactory from "../../modules/product-adm/factory/facade.factory";
-import { AddProductFacadeInputDto } from "../../modules/product-adm/facade/product-adm.facade.interface";
 import InvoiceFacadeFactory from "../../modules/invoice/factory/invoice.facade.factory";
 import { InvoiceGenerateFacadeInputDto } from "../../modules/invoice/facade/invoice.facade.interface";
 
@@ -26,7 +24,18 @@ invoiceRouter.post("/", async (req: Request, res: Response) => {
 
 
     const result = await facade.generate(input);
-    console.log(result)
+
+    res.send(result);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
+
+invoiceRouter.get("/:id", async (req: Request, res: Response) => {
+  console.log('req.params', req.params)
+  try {
+    const facade = InvoiceFacadeFactory.create();
+    const result = await facade.find({ id: req.params.id });
     res.send(result);
   } catch (error) {
     res.status(500).send(error);

@@ -25,7 +25,7 @@ export default class CheckoutRepository implements CheckoutGateway {
         complement: order.client.address.complement,
         city: order.client.address.city,
         state: order.client.address.state,
-        zipcode: order.client.address.zipCode,
+        zipCode: order.client.address.zipCode,
         createdAt: order.client.createdAt,
         updatedAt: order.client.updatedAt
       },
@@ -65,7 +65,7 @@ export default class CheckoutRepository implements CheckoutGateway {
           order.client.complement,
           order.client.city,
           order.client.state,
-          order.client.zipcode
+          order.client.zipCode
         ),
         createdAt: order.client.createdAt,
         updatedAt: order.client.updatedAt

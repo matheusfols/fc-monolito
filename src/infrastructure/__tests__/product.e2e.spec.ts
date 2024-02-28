@@ -5,6 +5,7 @@ import { ProductModel } from "../../modules/product-adm/repository/product.model
 import { Umzug } from "umzug";
 import { migrator } from "../../migrations/config-migrations/migrator";
 import productRouter from "../routes/product";
+import { mockProductInputAdd, mockProductInputNotAdd } from "./mock/product.mock";
 
 describe("E2E test for product", () => {
   const app: Express = express()
@@ -39,13 +40,8 @@ describe("E2E test for product", () => {
   })
 
   it("should create a product", async () => {
-    const input = {
-      name: "Produto 1",
-      description: "Descrição Produto 1",
-      purchasePrice: 100,
-      salesPrice: 150,
-      stock: 10,
-    }
+    const input = mockProductInputAdd
+
     const response = await request(app)
       .post("/product")
       .send(input);
@@ -58,13 +54,8 @@ describe("E2E test for product", () => {
   });
 
   it("should not create a product", async () => {
-    const input = {
-      name: "",
-      description: "Descrição Produto 1",
-      purchasePrice: 100,
-      salesPrice: 150,
-      stock: 10,
-    }
+    const input = mockProductInputNotAdd
+
     const response = await request(app)
       .post("/product")
       .send(input);

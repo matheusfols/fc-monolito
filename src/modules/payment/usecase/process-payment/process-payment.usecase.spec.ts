@@ -1,5 +1,5 @@
 import Id from "../../../@shared/domain/value-object/id.value-object";
-import Transaction from "../../domain/transaction";
+import Transaction from "../../domain/entity/transaction";
 import { MockPaymentRepository, MockPaymentRepositoryDeclined, mockTransactionApproved, mockTransactionDeclined } from "../../mock/mock";
 import ProcessPaymentUseCase from "./process-payment.usecase";
 

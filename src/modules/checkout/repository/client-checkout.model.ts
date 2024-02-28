@@ -34,7 +34,7 @@ export class ClientCheckoutModel extends Model {
   state: string
 
   @Column({ allowNull: false })
-  zipcode: string
+  zipCode: string
 
   @Column({ allowNull: false })
   createdAt: Date

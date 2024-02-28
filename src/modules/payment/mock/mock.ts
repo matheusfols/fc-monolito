@@ -1,6 +1,6 @@
 
 import Id from "../../@shared/domain/value-object/id.value-object";
-import Transaction from "../domain/transaction";
+import Transaction from "../domain/entity/transaction";
 
 export const mockTransaction = new Transaction({
   id: new Id(),

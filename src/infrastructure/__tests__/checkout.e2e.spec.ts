@@ -1,13 +1,14 @@
 import { Sequelize } from "sequelize-typescript";
+import { join } from "path";
 import express, { Express } from "express";
 import request from "supertest";
 import { Umzug } from "umzug";
 import { migrator } from "../../migrations/config-migrations/migrator";
 
 import clientRouter from "../routes/client";
-import Id from "../../modules/@shared/domain/value-object/id.value-object";
 import { OrderModel } from "../../modules/checkout/repository/order.model";
 import { ProductCheckoutModel } from "../../modules/checkout/repository/product-checkout.model";
+import { ProductModel as StoreCatalogProductModel } from "../../modules/store-catalog/repository/product.model";
 import TransactionModel from "../../modules/payment/repository/transaction.model";
 import { InvoiceModel } from "../../modules/invoice/repository/invoice.model";
 import { InvoiceItemsModel } from "../../modules/invoice/repository/invoice-items.model";
@@ -15,12 +16,20 @@ import { ClientCheckoutModel } from "../../modules/checkout/repository/client-ch
 import { ProductModel } from "../../modules/product-adm/repository/product.model";
 import { ClientModel } from "../../modules/client-adm/repository/client.model";
 import productRouter from "../routes/product";
+import paymentRouter from "../routes/payment";
+import invoiceRouter from "../routes/invoice";
+import { mockClientInputAdd } from "./mock/client.mock";
+import { mockProductInputAdd } from "./mock/product.mock";
+import checkoutRouter from "../routes/checkout";
 
 describe("E2E test for checkout", () => {
   const app: Express = express()
   app.use(express.json())
   app.use("/client", clientRouter)
   app.use("/product", productRouter)
+  app.use("/checkout", checkoutRouter)
+  app.use("/payment", paymentRouter)
+  app.use("/invoice", invoiceRouter)
 
 
   let sequelize: Sequelize
@@ -35,15 +44,18 @@ describe("E2E test for checkout", () => {
       // sync: { force: true },
     })
 
-    sequelize.addModels([
-      ProductModel,
-      ClientModel,
-      OrderModel,
-      ProductCheckoutModel,
-      ClientCheckoutModel,
-      TransactionModel,
-      InvoiceModel,
-      InvoiceItemsModel]
+    sequelize.addModels(
+      [
+        ProductModel,
+        ClientModel,
+        OrderModel,
+        ProductCheckoutModel,
+        StoreCatalogProductModel,
+        ClientCheckoutModel,
+        TransactionModel,
+        InvoiceModel,
+        InvoiceItemsModel,
+      ]
     )
     // await sequelize.sync();
     migration = migrator(sequelize)
@@ -59,83 +71,38 @@ describe("E2E test for checkout", () => {
     await sequelize.close()
   })
 
-  it("should add a client", async () => {
-    const input = {
-      id: "123",
-      name: "Carlos Alberto",
-      email: "carlosalbeto@teste.com",
-      document: "12345678900",
-      address: {
-        street: "Rua 123",
-        number: "99",
-        complement: "Casa Verde",
-        city: "Itararé",
-        state: "SP",
-        zipCode: "18460-000",
-      }
+  it("should create a checkout", async () => {
+    const responseClient = await request(app)
+      .post("/client")
+      .send(mockClientInputAdd);
+
+    expect(responseClient.status).toBe(200);
+
+    const responseProduct = await request(app)
+      .post("/product")
+      .send(mockProductInputAdd);
+
+    expect(responseProduct.status).toBe(200);
+
+    const mockCheckoutInput = {
+      clientId: responseClient.body.id,
+      products: [{
+        productId: responseProduct.body.id,
+      }]
     }
 
-    const response = await request(app)
-      .post("/client")
-      .send(input);
+    const responseCheckout = await request(app)
+      .post("/checkout")
+      .send(mockCheckoutInput);
 
-    expect(response.status).toBe(200);
-    expect(response.body.name).toBe("Carlos Alberto");
+    expect(responseCheckout.status).toBe(200);
 
-  });
+    const responseInvoice = await request(app)
+      .get(`/invoice/${responseCheckout.body.id}`)
+      .send();
+    // console.log('responseInvoice', responseInvoice);
 
-  it("should not add a product", async () => {
-    const input = {
-      id: new Id().id,
-      name: "",
-      email: "carlosalbeto@teste.com",
-      document: "12345678900",
-      address: {
-        street: "Rua 123",
-        number: "99",
-        complement: "Casa Verde",
-        city: "Itararé",
-        state: "SP",
-        zipCode: "18460-000",
-      }
-    }
+    expect(responseInvoice.status).toBe(200);
 
-    const response = await request(app)
-      .post("/client")
-      .send(input);
-
-
-    expect(response.status).toBe(500);
-  });
-
-  it("should find a product", async () => {
-    const input = {
-      id: new Id().id,
-      name: "Carlos Alberto",
-      email: "carlosalbeto@teste.com",
-      document: "12345678900",
-      address: {
-        street: "Rua 123",
-        number: "99",
-        complement: "Casa Verde",
-        city: "Itararé",
-        state: "SP",
-        zipCode: "18460-000",
-      }
-    }
-
-    const response = await request(app)
-      .post("/client")
-      .send(input);
-
-
-    expect(response.status).toBe(200);
-    expect(response.body.id).toBe(input.id);
-
-    const responseFind = await request(app)
-      .get(`/client/${input.id}`)
-
-    expect(responseFind.status).toBe(200);
-    expect(responseFind.body.name).toBe("Carlos Alberto");
   });
 });

@@ -6,6 +6,7 @@ import { migrator } from "../../migrations/config-migrations/migrator";
 import { ClientModel } from "../../modules/client-adm/repository/client.model";
 import clientRouter from "../routes/client";
 import Id from "../../modules/@shared/domain/value-object/id.value-object";
+import { mockClientInputAdd, mockClientInputNotAdd } from "./mock/client.mock";
 
 describe("E2E test for client", () => {
   const app: Express = express()
@@ -40,20 +41,7 @@ describe("E2E test for client", () => {
   })
 
   it("should add a client", async () => {
-    const input = {
-      id: "123",
-      name: "Carlos Alberto",
-      email: "carlosalbeto@teste.com",
-      document: "12345678900",
-      address: {
-        street: "Rua 123",
-        number: "99",
-        complement: "Casa Verde",
-        city: "Itararé",
-        state: "SP",
-        zipCode: "18460-000",
-      }
-    }
+    const input = mockClientInputAdd
 
     const response = await request(app)
       .post("/client")
@@ -65,20 +53,7 @@ describe("E2E test for client", () => {
   });
 
   it("should not add a product", async () => {
-    const input = {
-      id: new Id().id,
-      name: "",
-      email: "carlosalbeto@teste.com",
-      document: "12345678900",
-      address: {
-        street: "Rua 123",
-        number: "99",
-        complement: "Casa Verde",
-        city: "Itararé",
-        state: "SP",
-        zipCode: "18460-000",
-      }
-    }
+    const input = mockClientInputNotAdd
 
     const response = await request(app)
       .post("/client")
@@ -89,20 +64,7 @@ describe("E2E test for client", () => {
   });
 
   it("should find a product", async () => {
-    const input = {
-      id: new Id().id,
-      name: "Carlos Alberto",
-      email: "carlosalbeto@teste.com",
-      document: "12345678900",
-      address: {
-        street: "Rua 123",
-        number: "99",
-        complement: "Casa Verde",
-        city: "Itararé",
-        state: "SP",
-        zipCode: "18460-000",
-      }
-    }
+    const input = mockClientInputAdd
 
     const response = await request(app)
       .post("/client")

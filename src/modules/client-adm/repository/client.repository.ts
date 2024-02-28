@@ -18,7 +18,7 @@ export default class ClientRepository implements ClientGateway {
         complement: entity.address.complement,
         city: entity.address.city,
         state: entity.address.state,
-        zipcode: entity.address.zipCode,
+        zipCode: entity.address.zipCode,
         createdAt: entity.createdAt,
         updatedAt: entity.updatedAt
       }
@@ -32,7 +32,8 @@ export default class ClientRepository implements ClientGateway {
 
   async find(id: string): Promise<Client> {
 
-    const client = await ClientModel.findOne({ where: { id } })
+    const client = await ClientModel.findOne({ where: { id: id } })
+
 
     if (!client) {
       throw new Error("Client not found")
@@ -49,7 +50,7 @@ export default class ClientRepository implements ClientGateway {
         client.complement,
         client.city,
         client.state,
-        client.zipcode,
+        client.zipCode,
       ),
       createdAt: client.createdAt,
       updatedAt: client.createdAt

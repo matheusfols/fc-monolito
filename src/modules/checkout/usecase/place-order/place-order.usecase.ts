@@ -40,10 +40,6 @@ export default class PlaceOrderUseCase implements UseCaseInterface {
   async execute(input: PlaceOrderInputDto): Promise<PlaceOrderOutputDto> {
     const client = await this._clientFacade.find({ id: input.clientId })
 
-    if (!client) {
-      throw new Error("Client not found")
-    }
-
     await this.validateProducts(input);
 
     const products = await Promise.all(
@@ -79,6 +75,7 @@ export default class PlaceOrderUseCase implements UseCaseInterface {
       amount: order.total
     });
 
+
     const invoice = payment.status === "approved" ?
       await this._invoiceFacade.generate({
         name: myClient.name,
@@ -101,7 +98,7 @@ export default class PlaceOrderUseCase implements UseCaseInterface {
     payment.status === "approved" && order.approved();
     await this._repository.addOrder(order);
 
-    return {
+    const returnOrder = {
       id: order.id.id,
       invoiceId: payment.status === "approved" ? invoice.id : null,
       status: order.status,
@@ -112,21 +109,27 @@ export default class PlaceOrderUseCase implements UseCaseInterface {
         }
       })
     }
+
+    return returnOrder
   }
 
   private async getProduct(productId: string): Promise<Product> {
-    const product = await this._catalogFacade.find({ id: productId })
+    try {
+      const product = await this._catalogFacade.find({ id: productId })
 
-    if (!product) throw new Error("Product not found")
+      if (!product) throw new Error("Product not found")
 
-    const productProps = {
-      id: new Id(product.id),
-      name: product.name,
-      description: product.description,
-      salesPrice: product.salesPrice
+      const productProps = {
+        id: new Id(product.id),
+        name: product.name,
+        description: product.description,
+        salesPrice: product.salesPrice
+      }
+
+      return new Product(productProps)
+    } catch (error) {
+      throw new Error('Erro find product')
     }
-
-    return new Product(productProps)
   }
 
   private async validateProducts(input: PlaceOrderInputDto): Promise<void> {

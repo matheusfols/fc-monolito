@@ -40,7 +40,7 @@ export const up: MigrationFn<Sequelize> = async ({ context: sequelize }) => {
       type: DataTypes.STRING(255),
       allowNull: false
     },
-    zipcode: {
+    zipCode: {
       type: DataTypes.STRING(255),
       allowNull: false
     },

@@ -1,3 +1,4 @@
+import Id from "../../../@shared/domain/value-object/id.value-object";
 import Product from "./product.entity";
 
 describe("Product unit tests", () => {
@@ -6,11 +7,9 @@ describe("Product unit tests", () => {
       const input = {
         name: "",
         description: "",
-        purchasePrice: -1,
         salesPrice: -1,
-        stock: -1,
       }
       const product = new Product(input);
-    }).toThrowError("product: Name is required,product: Description is required,product: Purchase Price must be greater than zero,product: Sales Price must be greater than zero,product: Stock must be greater than zero");
+    }).toThrowError("product: Name is required,product: Description is required,product: Sales Price must be greater than zero");
   });
 })
