@@ -1,6 +1,6 @@
 import { BelongsTo, Column, ForeignKey, HasMany, Model, PrimaryKey, Table } from "sequelize-typescript";
-import { ClientModel } from "./client-checkout.model";
-import { ProductModel } from "./product-checkout.model";
+import { ClientCheckoutModel } from "./client-checkout.model";
+import { ProductCheckoutModel } from "./product-checkout.model";
 
 
 @Table({
@@ -12,15 +12,15 @@ export class OrderModel extends Model {
   @Column({ allowNull: false })
   id: string;
 
-  @ForeignKey(() => ClientModel)
+  @ForeignKey(() => ClientCheckoutModel)
   @Column({ allowNull: false })
   client_id: string;
 
-  @BelongsTo(() => ClientModel)
-  client: ClientModel;
+  @BelongsTo(() => ClientCheckoutModel)
+  client: ClientCheckoutModel;
 
-  @HasMany(() => ProductModel)
-  products: ProductModel[];
+  @HasMany(() => ProductCheckoutModel)
+  products: ProductCheckoutModel[];
 
   @Column({ allowNull: false })
   status: string;

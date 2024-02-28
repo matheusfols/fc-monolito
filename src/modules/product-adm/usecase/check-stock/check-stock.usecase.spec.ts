@@ -1,5 +1,5 @@
 import Id from "../../../@shared/domain/value-object/id.value-object";
-import Product from "../../domain/product.entity";
+import Product from "../../domain/entity/product.entity";
 import CheckStockUseCase from "./check-stock.usecase";
 
 const product = new Product({
@@ -7,6 +7,7 @@ const product = new Product({
   name: "Product",
   description: "Product description",
   purchasePrice: 100,
+  salesPrice: 200,
   stock: 10,
 });
 

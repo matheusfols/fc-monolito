@@ -1,11 +1,12 @@
 import Id from "../../@shared/domain/value-object/id.value-object";
-import Product from "../domain/product.entity";
+import Product from "../domain/entity/product.entity";
 
 export const mockProducAdmInput1 = {
   id: new Id(),
   name: "Product 1",
   description: "Product 1 description",
   purchasePrice: 10,
+  salesPrice: 15,
   stock: 10,
   createdAt: new Date(),
   updatedAt: new Date(),

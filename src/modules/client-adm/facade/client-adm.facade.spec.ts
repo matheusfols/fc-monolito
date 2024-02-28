@@ -4,7 +4,7 @@ import ClientRepository from "../repository/client.repository"
 import AddClientUseCase from "../usecase/add-client/add-client.usecase"
 import ClientAdmFacade from "./client-adm.facade"
 import ClientAdmFacadeFactory from "../factory/client-adm.facade.factory"
-import Address from "../../@shared/domain/value-object/address"
+import Address from "../../@shared/domain/value-object/address/address.value-object"
 
 
 describe("Client Adm Facade test", () => {
@@ -64,14 +64,6 @@ describe("Client Adm Facade test", () => {
   })
 
   it("should find a client", async () => {
-
-    // const repository = new ClientRepository()
-    // const addUsecase = new AddClientUseCase(repository)
-    // const findUseCase = new FindClientUseCase(repository)
-    // const facade = new ClientAdmFacade({
-    //   addUseCase: addUsecase,
-    //   findUseCase: findUseCase
-    // })
 
     const facade = ClientAdmFacadeFactory.create()
 

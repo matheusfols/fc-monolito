@@ -1,12 +1,12 @@
-import Address from "../../@shared/domain/value-object/address";
+import Address from "../../@shared/domain/value-object/address/address.value-object";
 import Id from "../../@shared/domain/value-object/id.value-object";
 import Client from "../domain/client.entity";
 import Order from "../domain/order.entity";
 import Product from "../domain/product.entity";
 import CheckoutGateway from "../gateway/checkout.gateway";
-import { ClientModel } from "./client-checkout.model";
+import { ClientCheckoutModel } from "./client-checkout.model";
 import { OrderModel } from "./order.model";
-import { ProductModel } from "./product-checkout.model";
+import { ProductCheckoutModel } from "./product-checkout.model";
 
 export default class CheckoutRepository implements CheckoutGateway {
   async addOrder(order: Order): Promise<void> {
@@ -40,7 +40,7 @@ export default class CheckoutRepository implements CheckoutGateway {
       createdAt: order.createdAt,
       updatedAt: order.updatedAt
     }, {
-      include: [{ model: ProductModel }, { model: ClientModel }]
+      include: [{ model: ProductCheckoutModel }, { model: ClientCheckoutModel }]
     })
   }
 

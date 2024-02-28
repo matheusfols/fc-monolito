@@ -11,7 +11,7 @@ import Order from "../../domain/order.entity";
 import Product from "../../domain/product.entity";
 import CheckoutGateway from "../../gateway/checkout.gateway";
 import { PlaceOrderInputDto, PlaceOrderOutputDto } from "./place-order.dto";
-import Address from '../../../@shared/domain/value-object/address';
+import Address from '../../../@shared/domain/value-object/address/address.value-object';
 
 export default class PlaceOrderUseCase implements UseCaseInterface {
   private _clientFacade: ClientAdmFacadeInterface;

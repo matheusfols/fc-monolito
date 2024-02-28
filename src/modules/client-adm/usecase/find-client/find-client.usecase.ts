@@ -1,5 +1,5 @@
 
-import Address from "../../../@shared/domain/value-object/address";
+import Address from "../../../@shared/domain/value-object/address/address.value-object";
 import ClientGateway from "../../gateway/client.gateway";
 import { FindClientUseCaseInputDto, FindClientUseCaseOutputDto } from "./find-client.usecase.dto";
 

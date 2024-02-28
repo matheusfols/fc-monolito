@@ -1,6 +1,6 @@
-import Address from "../../../@shared/domain/value-object/address";
+import Address from "../../../@shared/domain/value-object/address/address.value-object";
 import Id from "../../../@shared/domain/value-object/id.value-object";
-import Client from "../../domain/client.entity";
+import Client from "../../domain/entity/client.entity";
 import ClientGateway from "../../gateway/client.gateway";
 import { AddClientInputDto, AddClientOutputDto } from "./add-client.usecase.dto";
 
@@ -32,7 +32,7 @@ export default class AddClientUseCase {
     const client = new Client(props)
     await this._clientRepository.add(client)
 
-    return {
+    const returnClient = {
       id: client.id.id,
       name: client.name,
       email: client.email,
@@ -48,5 +48,7 @@ export default class AddClientUseCase {
       createdAt: client.createdAt,
       updatedAt: client.updatedAt
     }
+
+    return returnClient
   }
 }

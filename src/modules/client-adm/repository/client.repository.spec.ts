@@ -1,9 +1,11 @@
 import { Sequelize } from "sequelize-typescript"
 import { ClientModel } from "./client.model"
 import ClientRepository from "./client.repository"
-import Client from "../domain/client.entity"
+
 import Id from "../../@shared/domain/value-object/id.value-object"
-import Address from "../../@shared/domain/value-object/address"
+import Client from "../domain/entity/client.entity"
+import Address from "../../@shared/domain/value-object/address/address.value-object"
+
 
 describe("Client Repository test", () => {
 
@@ -75,7 +77,7 @@ describe("Client Repository test", () => {
       complement: "Casa Verde",
       city: "Criciúma",
       state: "SC",
-      zipcode: "88888-888",      
+      zipcode: "88888-888",
       createdAt: new Date(),
       updatedAt: new Date()
     })

@@ -1,7 +1,7 @@
 import { Sequelize } from "sequelize-typescript";
 import { OrderModel } from "./order.model";
-import { ClientModel } from "./client-checkout.model";
-import { ProductModel } from "./product-checkout.model";
+import { ClientCheckoutModel } from "./client-checkout.model";
+import { ProductCheckoutModel } from "./product-checkout.model";
 import CheckoutRepository from "./checkout.repository";
 import { mockCheckoutOrder } from "../mock/mock";
 
@@ -16,7 +16,7 @@ describe("Checkout Repository test", () => {
       sync: { force: true },
     });
 
-    await sequelize.addModels([OrderModel, ClientModel, ProductModel]);
+    await sequelize.addModels([OrderModel, ClientCheckoutModel, ProductCheckoutModel]);
     await sequelize.sync();
   });
 

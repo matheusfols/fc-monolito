@@ -1,4 +1,4 @@
-import Address from "../../../@shared/domain/value-object/address"
+import Address from "../../../@shared/domain/value-object/address/address.value-object"
 import AddClientUseCase from "./add-client.usecase"
 
 const MockRepository = () => {
@@ -30,7 +30,7 @@ describe("Add Client use case unit test", () => {
       )
     }
 
-    const result =  await usecase.execute(input)
+    const result = await usecase.execute(input)
 
     expect(repository.add).toHaveBeenCalled()
     expect(result.id).toBeDefined()

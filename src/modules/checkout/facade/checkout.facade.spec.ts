@@ -2,8 +2,8 @@ import { Sequelize } from "sequelize-typescript"
 import PlaceOrderUseCase from "../usecase/place-order/place-order.usecase"
 import CheckoutFacade from "./checkout.facade"
 import { OrderModel } from "../repository/order.model"
-import { ClientModel } from "../repository/client-checkout.model"
-import { ProductModel } from "../repository/product-checkout.model"
+import { ClientCheckoutModel } from "../repository/client-checkout.model"
+import { ProductCheckoutModel } from "../repository/product-checkout.model"
 import { checkoutRepository, clientFacadeMock, invoiceFacadeMock, mockCheckoutClient, mockCheckoutFacadeInput, mockCheckoutPayment, mockCheckoutStoreProduct, paymentFacadeMock, productFacadeMock, storeCatalogFacadeMock } from "../mock/mock"
 import { mockTransaction } from "../../payment/mock/mock"
 
@@ -18,7 +18,7 @@ describe("Checkout facade test", () => {
       sync: { force: true }
     })
 
-    sequelize.addModels([OrderModel, ClientModel, ProductModel]);
+    sequelize.addModels([OrderModel, ClientCheckoutModel, ProductCheckoutModel]);
     await sequelize.sync()
   })
 

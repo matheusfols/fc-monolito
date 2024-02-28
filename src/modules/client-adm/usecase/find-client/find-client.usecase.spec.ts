@@ -1,6 +1,6 @@
-import Address from "../../../@shared/domain/value-object/address"
+import Address from "../../../@shared/domain/value-object/address/address.value-object"
 import Id from "../../../@shared/domain/value-object/id.value-object"
-import Client from "../../domain/client.entity"
+import Client from "../../domain/entity/client.entity"
 import FindClientUseCase from "./find-client.usecase"
 
 const client = new Client({
