@@ -1,10 +1,10 @@
-import Address from "../../@shared/domain/value-object/address";
+import Address from "../../@shared/domain/value-object/address/address.value-object";
 import Id from "../../@shared/domain/value-object/id.value-object";
-import Invoice from "../domain/invoice.entity";
-import InvoiceItems from "../domain/invoice-items.entity";
+import Invoice from "../domain/entity/invoice.entity";
+import InvoiceItems from "../domain/entity/invoice-items.entity";
 
-export const mockAddress1: Address = new Address('Rua 1', '123', 'apto 1', 'São Paulo', 'SP', 'Brasil');
-export const mockAddress2: Address = new Address('Rua 1', '123', 'apto 2', 'São Paulo', 'SP', 'Brasil');
+export const mockAddress1: Address = new Address('Rua 1', '123', 'apto 1', 'São Paulo', 'SP', '12345678');
+export const mockAddress2: Address = new Address('Rua 1', '123', 'apto 2', 'São Paulo', 'SP', '87654321');
 
 export const mockItem1 = new InvoiceItems({
   id: new Id(),
@@ -54,9 +54,7 @@ export const MockInvoiceInput = {
   ]
 }
 
-export const MockInvoiceRepository = () => {
-  return {
-    generate: jest.fn().mockReturnValue(Promise.resolve(mockInvoice1)),
-    find: jest.fn().mockReturnValue(Promise.resolve(mockInvoice1)),
-  };
+export const MockInvoiceRepository = {
+  generate: jest.fn().mockReturnValue(Promise.resolve(mockInvoice1)),
+  find: jest.fn().mockReturnValue(Promise.resolve(mockInvoice1)),
 };

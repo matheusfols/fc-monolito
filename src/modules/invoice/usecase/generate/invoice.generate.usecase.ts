@@ -1,7 +1,7 @@
-import Address from "../../../@shared/domain/value-object/address"
+import Address from "../../../@shared/domain/value-object/address/address.value-object"
 import Id from "../../../@shared/domain/value-object/id.value-object"
-import InvoiceItems from "../../domain/invoice-items.entity"
-import Invoice from "../../domain/invoice.entity"
+import InvoiceItems from "../../domain/entity/invoice-items.entity"
+import Invoice from "../../domain/entity/invoice.entity"
 import InvoiceGateway from "../../gateway/invoice.gateway"
 import { GenerateInvoiceUseCaseInputDto, GenerateInvoiceUseCaseOutputDto } from "./invoice.generate.dto"
 

@@ -1,7 +1,7 @@
-import Address from "../../@shared/domain/value-object/address";
+import Address from "../../@shared/domain/value-object/address/address.value-object";
 import Id from "../../@shared/domain/value-object/id.value-object";
-import InvoiceItems from "../domain/invoice-items.entity";
-import Invoice from "../domain/invoice.entity";
+import InvoiceItems from "../domain/entity/invoice-items.entity";
+import Invoice from "../domain/entity/invoice.entity";
 import InvoiceGateway from "../gateway/invoice.gateway";
 import { InvoiceItemsModel } from "./invoice-items.model";
 import { InvoiceModel } from "./invoice.model";
@@ -19,7 +19,7 @@ export default class InvoiceRepository implements InvoiceGateway {
       complement: invoice.address.complement,
       city: invoice.address.city,
       state: invoice.address.state,
-      zipcode: invoice.address.zipCode,
+      zipCode: invoice.address.zipCode,
       items: invoice.items.map((item) => ({
         id: item.id.id,
         name: item.name,
@@ -35,7 +35,7 @@ export default class InvoiceRepository implements InvoiceGateway {
       }
     )
 
-    return new Invoice({
+    const rs = new Invoice({
       id: invoice.id,
       name: invoice.name,
       document: invoice.document,
@@ -44,10 +44,12 @@ export default class InvoiceRepository implements InvoiceGateway {
       createdAt: invoice.createdAt,
       updatedAt: invoice.updatedAt
     });
+
+    return rs
   }
 
   async find(id: string): Promise<Invoice> {
-    const findInvoice = await InvoiceModel.findOne({ where: { id: id }, include: [InvoiceItemsModel] });
+    const findInvoice = await InvoiceModel.findOne({ where: { id }, include: [InvoiceItemsModel] });
 
     if (!findInvoice) {
       throw new Error(`Invoice with id ${id} not found`);
@@ -63,7 +65,7 @@ export default class InvoiceRepository implements InvoiceGateway {
         findInvoice.complement,
         findInvoice.city,
         findInvoice.state,
-        findInvoice.zipcode
+        findInvoice.zipCode
       ),
       items: findInvoice.items.map((item) => (new InvoiceItems({
         id: new Id(item.id),

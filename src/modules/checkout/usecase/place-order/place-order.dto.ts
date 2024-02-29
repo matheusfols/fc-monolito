@@ -1,18 +1,18 @@
-import Id from "../../../@shared/domain/value-object/id.value-object";
-
 export interface PlaceOrderInputDto {
-  clientId: string;
+  clientId: string
   products: {
-    productId: string;
-  }[];
+    productId: string
+  }[]
 }
 
 export interface PlaceOrderOutputDto {
-  id: Id;
-  invoiceId: string;
-  status: string;
-  total: number;
+  id: string
+  invoiceId: string
+  status: string
+  total: number
   products: {
-    productId: string;
-  }[];
+    productId: string
+  }[]
+  createdAt?: Date
+  updatedAt?: Date
 }

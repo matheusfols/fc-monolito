@@ -22,12 +22,6 @@ describe("ProductAdmFacade test", () => {
   });
 
   it("should create a product", async () => {
-    // const productRepository = new ProductRepository();
-    // const addProductUseCase = new AddProductUseCase(productRepository);
-    // const productFacade = new ProductAdmFacade({
-    //   addUseCase: addProductUseCase,
-    //   stockUseCase: undefined,
-    // });
 
     const productFacade = ProductAdmFacadeFactory.create();
 
@@ -36,6 +30,7 @@ describe("ProductAdmFacade test", () => {
       name: "Product 1",
       description: "Product 1 description",
       purchasePrice: 10,
+      salesPrice: 15,
       stock: 10,
     };
 
@@ -47,6 +42,7 @@ describe("ProductAdmFacade test", () => {
     expect(product.name).toBe(input.name);
     expect(product.description).toBe(input.description);
     expect(product.purchasePrice).toBe(input.purchasePrice);
+    expect(product.salesPrice).toBe(input.salesPrice);
     expect(product.stock).toBe(input.stock);
   });
 
@@ -57,6 +53,7 @@ describe("ProductAdmFacade test", () => {
       name: "Product 1",
       description: "Product 1 description",
       purchasePrice: 10,
+      salesPrice: 15,
       stock: 10,
     };
     await productFacade.addProduct(input);

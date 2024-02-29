@@ -1,5 +1,5 @@
 import UseCaseInterface from "../../../@shared/usecase/use-case.interface";
-import Transaction from "../../domain/transaction";
+import Transaction from "../../domain/entity/transaction";
 import PaymentGateway from "../../gateway/payment.gateway";
 import {
   ProcessPaymentInputDto,
@@ -7,7 +7,7 @@ import {
 } from "./process-payment.dto";
 
 export default class ProcessPaymentUseCase implements UseCaseInterface {
-  constructor(private transactionRepository: PaymentGateway) {}
+  constructor(private transactionRepository: PaymentGateway) { }
 
   async execute(
     input: ProcessPaymentInputDto

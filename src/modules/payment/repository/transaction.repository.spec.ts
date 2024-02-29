@@ -1,8 +1,9 @@
 import { Sequelize } from "sequelize-typescript";
 import Id from "../../@shared/domain/value-object/id.value-object";
-import Transaction from "../domain/transaction";
+import Transaction from "../domain/entity/transaction";
 import TransactionModel from "./transaction.model";
 import TransactionRepostiory from "./transaction.repository";
+import { mockTransaction } from "../mock/mock";
 
 describe("TransactionRepository test", () => {
   let sequelize: Sequelize;
@@ -24,11 +25,7 @@ describe("TransactionRepository test", () => {
   });
 
   it("should save a transaction", async () => {
-    const transaction = new Transaction({
-      id: new Id("1"),
-      amount: 100,
-      orderId: "1",
-    });
+    const transaction = mockTransaction
     transaction.approve();
 
     const repository = new TransactionRepostiory();

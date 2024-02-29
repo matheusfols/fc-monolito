@@ -105,3 +105,7 @@ Após baixar o repositório executar:
 Após a instalação das dependências, executar:
 
     npm test
+
+node -r ts-node/register/transpile-only
+./src/migrations/config-migrations/migrator-cli.ts create --name transaction.ts
+--folder src/migrations/migrations

@@ -45,7 +45,7 @@ describe("Invoice Facade tests", () => {
     expect(invoice.complement).toBe(result.complement)
     expect(invoice.city).toBe(result.city)
     expect(invoice.state).toBe(result.state)
-    expect(invoice.zipcode).toBe(result.zipCode)
+    expect(invoice.zipCode).toBe(result.zipCode)
   })
 
   it("should find a invoice", async () => {

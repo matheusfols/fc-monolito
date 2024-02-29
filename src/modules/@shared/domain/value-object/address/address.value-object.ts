@@ -1,4 +1,7 @@
-import ValueObject from "../../../@shared/domain/value-object/value-object.interface"
+import ValueObject from "../value-object.interface"
+import Notification from "../../notification/notification"
+import NotificationError from "../../notification/notification.error"
+import AddressValidatorFactory from "../../../factory/address.validator.factory"
 
 export default class Address implements ValueObject {
   _street: string = ""
@@ -7,6 +10,7 @@ export default class Address implements ValueObject {
   _city: string = ""
   _state: string = ""
   _zipCode: string = ""
+  public notification: Notification;
 
   constructor(street: string, number: string, complement: string, city: string, state: string, zipCode: string) {
     this._street = street
@@ -15,7 +19,12 @@ export default class Address implements ValueObject {
     this._city = city
     this._state = state
     this._zipCode = zipCode
+    this.notification = new Notification();
 
+    this.validate();
+    if (this.notification.hasErrors()) {
+      throw new NotificationError(this.notification.getErrors());
+    }
   }
 
   get street(): string {
@@ -43,23 +52,6 @@ export default class Address implements ValueObject {
   }
 
   validate() {
-    if (this._street.length === 0) {
-      throw new Error("Street is required")
-    }
-    if (this._number.length === 0) {
-      throw new Error("Number is required")
-    }
-    if (this._complement.length === 0) {
-      throw new Error("Complement is required")
-    }
-    if (this._city.length === 0) {
-      throw new Error("City is required")
-    }
-    if (this._state.length === 0) {
-      throw new Error("State is required")
-    }
-    if (this._zipCode.length === 0) {
-      throw new Error("Zip code is required")
-    }
+    AddressValidatorFactory.create().validate(this);
   }
 }
