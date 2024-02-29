@@ -1,9 +1,6 @@
 import express, { Request, Response } from "express";
-import { AddProductFacadeInputDto } from "../../modules/product-adm/facade/product-adm.facade.interface";
 import ClientAdmFacadeFactory from "../../modules/client-adm/factory/client-adm.facade.factory";
 import { AddClientFacadeInputDto } from "../../modules/client-adm/facade/client-adm.facade.interface";
-import Address from "../../modules/@shared/domain/value-object/address/address.value-object";
-
 
 const clientRouter = express.Router();
 

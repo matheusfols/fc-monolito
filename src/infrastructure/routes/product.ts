@@ -11,6 +11,7 @@ productRouter.post("/", async (req: Request, res: Response) => {
     const facade = ProductAdmFacadeFactory.create();
 
     const input: AddProductFacadeInputDto = {
+      id: req.body.id as string,
       name: req.body.name as string,
       description: req.body.description as string,
       purchasePrice: Number(req.body.purchasePrice),

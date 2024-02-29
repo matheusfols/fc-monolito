@@ -5,7 +5,7 @@ import { ProductModel } from "../../modules/product-adm/repository/product.model
 import { Umzug } from "umzug";
 import { migrator } from "../../migrations/config-migrations/migrator";
 import productRouter from "../routes/product";
-import { mockProductInputAdd, mockProductInputNotAdd } from "./mock/product.mock";
+import { mockProductInputAdd, mockProductInputNotAdd } from "../mock/product.mock";
 
 describe("E2E test for product", () => {
   const app: Express = express()

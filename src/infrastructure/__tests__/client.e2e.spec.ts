@@ -6,7 +6,7 @@ import { migrator } from "../../migrations/config-migrations/migrator";
 import { ClientModel } from "../../modules/client-adm/repository/client.model";
 import clientRouter from "../routes/client";
 import Id from "../../modules/@shared/domain/value-object/id.value-object";
-import { mockClientInputAdd, mockClientInputNotAdd } from "./mock/client.mock";
+import { mockClientInputAdd, mockClientInputNotAdd } from "../mock/client.mock";
 
 describe("E2E test for client", () => {
   const app: Express = express()

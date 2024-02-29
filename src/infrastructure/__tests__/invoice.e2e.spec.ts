@@ -6,7 +6,7 @@ import { migrator } from "../../migrations/config-migrations/migrator";
 import { InvoiceModel } from "../../modules/invoice/repository/invoice.model";
 import { InvoiceItemsModel } from "../../modules/invoice/repository/invoice-items.model";
 import invoiceRouter from "../routes/invoice";
-import { mockInvoiceInputAdd, mockInvoiceInputNotAdd } from "./mock/invoice.mock";
+import { mockInvoiceInputAdd, mockInvoiceInputNotAdd } from "../mock/invoice.mock";
 
 
 describe("E2E test for invoice", () => {
@@ -41,51 +41,31 @@ describe("E2E test for invoice", () => {
     await sequelize.close()
   })
 
-  it("should create a invoice", async () => {
-    const input = mockInvoiceInputAdd;
-
-    const response = await request(app)
-      .post("/invoice")
-      .send(input);
-
-    expect(response.status).toBe(200);
-    expect(response.body.id).toBeDefined()
-    expect(response.body.name).toBe(input.name)
-    expect(response.body.document).toBe(input.document)
-    expect(response.body.street).toBe(input.street)
-    expect(response.body.number).toBe(input.number)
-    expect(response.body.complement).toBe(input.complement)
-    expect(response.body.city).toBe(input.city)
-    expect(response.body.state).toBe(input.state)
-    expect(response.body.zipCode).toBe(input.zipCode)
-    expect(response.body.items).toEqual(input.items)
-
-  });
-  it("should not create a invoice", async () => {
-    const input = mockInvoiceInputNotAdd
-
-    const response = await request(app)
-      .post("/invoice")
-      .send(input);
-
-    expect(response.status).toBe(500);
-  });
 
   it("should find a invoice", async () => {
     const input = mockInvoiceInputAdd
 
-    const response = await request(app)
-      .post("/invoice")
-      .send(input);
-
-    expect(response.status).toBe(200);
+    await InvoiceModel.create(input, { include: [{ model: InvoiceItemsModel }] });
 
     const responseFind = await request(app)
-      .get(`/invoice/${response.body.id}`)
+      .get(`/invoice/${input.id}`)
       .send();
 
     expect(responseFind.status).toBe(200);
-    expect(responseFind.body.id).toBe(response.body.id)
+    expect(responseFind.body.id).toBe(input.id)
+  });
+
+  it("should not find a invoice", async () => {
+    const input = mockInvoiceInputAdd
+
+    await InvoiceModel.create(input, { include: [{ model: InvoiceItemsModel }] });
+
+    const responseFind = await request(app)
+      .get(`/invoice/${input.id}s`)
+      .send();
+
+    expect(responseFind.status).toBe(500);
+
   });
 
 

@@ -16,10 +16,9 @@ import { ClientCheckoutModel } from "../../modules/checkout/repository/client-ch
 import { ProductModel } from "../../modules/product-adm/repository/product.model";
 import { ClientModel } from "../../modules/client-adm/repository/client.model";
 import productRouter from "../routes/product";
-import paymentRouter from "../routes/payment";
 import invoiceRouter from "../routes/invoice";
-import { mockClientInputAdd } from "./mock/client.mock";
-import { mockProductInputAdd } from "./mock/product.mock";
+import { mockClientInputAdd } from "../mock/client.mock";
+import { mockProductInputAdd } from "../mock/product.mock";
 import checkoutRouter from "../routes/checkout";
 
 describe("E2E test for checkout", () => {
@@ -28,7 +27,6 @@ describe("E2E test for checkout", () => {
   app.use("/client", clientRouter)
   app.use("/product", productRouter)
   app.use("/checkout", checkoutRouter)
-  app.use("/payment", paymentRouter)
   app.use("/invoice", invoiceRouter)
 
 
@@ -96,13 +94,32 @@ describe("E2E test for checkout", () => {
       .send(mockCheckoutInput);
 
     expect(responseCheckout.status).toBe(200);
+    expect(responseCheckout.body.id).toBeDefined()
+    expect(responseCheckout.body.invoiceId).toBeDefined()
+    expect(responseCheckout.body.status).toEqual("approved")
+    expect(responseCheckout.body.total).toEqual(mockProductInputAdd.salesPrice)
+    expect(responseCheckout.body.products[0].productId).toEqual(mockCheckoutInput.products[0].productId)
+
 
     const responseInvoice = await request(app)
-      .get(`/invoice/${responseCheckout.body.id}`)
+      .get(`/invoice/${responseCheckout.body.invoiceId}`)
       .send();
-    // console.log('responseInvoice', responseInvoice);
 
     expect(responseInvoice.status).toBe(200);
+    expect(responseInvoice.body.id).toEqual(responseCheckout.body.invoiceId)
+    expect(responseInvoice.body.name).toEqual(mockClientInputAdd.name)
+    expect(responseInvoice.body.document).toEqual(mockClientInputAdd.document)
+    expect(responseInvoice.body.address.street).toEqual(mockClientInputAdd.address.street)
+    expect(responseInvoice.body.address.number).toEqual(mockClientInputAdd.address.number)
+    expect(responseInvoice.body.address.complement).toEqual(mockClientInputAdd.address.complement)
+    expect(responseInvoice.body.address.city).toEqual(mockClientInputAdd.address.city)
+    expect(responseInvoice.body.address.state).toEqual(mockClientInputAdd.address.state)
+    expect(responseInvoice.body.address.zipCode).toEqual(mockClientInputAdd.address.zipCode)
+    expect(responseInvoice.body.items[0].id).toEqual(mockProductInputAdd.id)
+    expect(responseInvoice.body.items[0].name).toEqual(mockProductInputAdd.name)
+    expect(responseInvoice.body.items[0].price).toEqual(mockProductInputAdd.salesPrice)
+    expect(responseInvoice.body.total).toEqual(mockProductInputAdd.salesPrice)
+
 
   });
 });

@@ -40,6 +40,10 @@ export default class PlaceOrderUseCase implements UseCaseInterface {
   async execute(input: PlaceOrderInputDto): Promise<PlaceOrderOutputDto> {
     const client = await this._clientFacade.find({ id: input.clientId })
 
+    if (!client) {
+      throw new Error("Client not found")
+    }
+
     await this.validateProducts(input);
 
     const products = await Promise.all(
@@ -114,26 +118,26 @@ export default class PlaceOrderUseCase implements UseCaseInterface {
   }
 
   private async getProduct(productId: string): Promise<Product> {
-    try {
-      const product = await this._catalogFacade.find({ id: productId })
 
-      if (!product) throw new Error("Product not found")
+    const product = await this._catalogFacade.find({ id: productId })
 
-      const productProps = {
-        id: new Id(product.id),
-        name: product.name,
-        description: product.description,
-        salesPrice: product.salesPrice
-      }
+    if (!product) throw new Error("Product not found")
 
-      return new Product(productProps)
-    } catch (error) {
-      throw new Error('Erro find product')
+    const productProps = {
+      id: new Id(product.id),
+      name: product.name,
+      description: product.description,
+      salesPrice: product.salesPrice
     }
+
+    return new Product(productProps)
+
   }
 
   private async validateProducts(input: PlaceOrderInputDto): Promise<void> {
-    if (input.products.length === 0) throw new Error("No products selected")
+    if (input.products.length === 0) {
+      throw new Error("No products selected")
+    }
 
     for (const p of input.products) {
       const product = await this._productFacade.checkStock({

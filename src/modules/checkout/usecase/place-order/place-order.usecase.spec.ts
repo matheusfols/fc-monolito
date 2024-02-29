@@ -25,7 +25,11 @@ describe("PlaceOrderUseCase unit tests", () => {
       //@ts-expect-error - force set clientFacade
       placeOrderUseCase["_clientFacade"] = mockClientFacade;
 
-      const input: PlaceOrderInputDto = { clientId: "0", products: [] }
+      const input: PlaceOrderInputDto = {
+        clientId: "", products: [{
+          productId: "1"
+        }]
+      }
 
       await expect(placeOrderUseCase.execute(input)).rejects.toThrow(
         new Error("Client not found"))
